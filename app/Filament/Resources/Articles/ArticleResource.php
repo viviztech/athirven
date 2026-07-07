@@ -9,6 +9,7 @@ use App\Filament\Resources\Articles\Schemas\ArticleForm;
 use App\Filament\Resources\Articles\Tables\ArticlesTable;
 use App\Models\Article;
 use BackedEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -23,6 +24,25 @@ class ArticleResource extends Resource
     protected static string|\UnitEnum|null $navigationGroup = 'Editorial';
 
     protected static ?int $navigationSort = 2;
+
+    /**
+     * Writer-like roles (articles.edit.own but not articles.edit.any) only see
+     * their own pieces. Everyone else with list access — Sub-Editors/EIC/Admin
+     * via articles.edit.any, or pure reviewers like Proofreader who hold
+     * neither edit permission but still need to see the full queue — sees
+     * everything ArticlePolicy::viewAny already let them into.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+
+        if ($user && $user->can('articles.edit.own') && ! $user->can('articles.edit.any')) {
+            $query->where('created_by_id', $user->id);
+        }
+
+        return $query;
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Enums\ArticleAuthorRole;
-use App\Enums\ArticleStatus;
 use App\Enums\ArticleType;
+use App\Models\Article;
 use App\Models\Author;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -94,16 +96,18 @@ class ArticleForm
                             ->relationship('issue', 'title')
                             ->searchable()
                             ->preload(),
-                        Select::make('status')
-                            ->options(ArticleStatus::class)
-                            ->default(ArticleStatus::Draft)
-                            ->required(),
+                        Placeholder::make('status_display')
+                            ->label('Status')
+                            ->content(fn (?Article $record) => $record?->status->getLabel() ?? 'Draft (new)')
+                            ->helperText('Status changes via the workflow actions on the list/edit page, not this field.'),
+                        Hidden::make('status')->default('draft'),
                         TextInput::make('reading_time_minutes')
                             ->numeric(),
                         TextInput::make('order')
                             ->numeric()
                             ->default(0),
-                        DateTimePicker::make('published_at'),
+                        DateTimePicker::make('published_at')
+                            ->disabled(),
                         DateTimePicker::make('scheduled_at'),
                         Toggle::make('is_premium')
                             ->label('Premium (subscriber-only) content'),
@@ -113,6 +117,20 @@ class ArticleForm
                             ->options(['pre' => 'Pre-moderate', 'post' => 'Post-moderate'])
                             ->default('pre')
                             ->required(),
+                    ]),
+
+                Section::make('Editorial feedback')
+                    ->columns(2)
+                    ->visible(fn (?Article $record) => filled($record?->revision_notes) || filled($record?->proofreader_notes))
+                    ->schema([
+                        Textarea::make('revision_notes')
+                            ->label('Revision notes (from reviewer)')
+                            ->disabled()
+                            ->visible(fn (?Article $record) => filled($record?->revision_notes)),
+                        Textarea::make('proofreader_notes')
+                            ->label('Proofreader notes')
+                            ->disabled()
+                            ->visible(fn (?Article $record) => filled($record?->proofreader_notes)),
                     ]),
 
                 Section::make('SEO')

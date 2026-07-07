@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
-    'issue_id', 'category_id', 'type', 'status', 'title', 'slug', 'subtitle', 'excerpt', 'body',
-    'is_premium', 'reading_time_minutes', 'order', 'published_at', 'scheduled_at',
+    'issue_id', 'category_id', 'created_by_id', 'type', 'status', 'title', 'slug', 'subtitle', 'excerpt', 'body',
+    'is_premium', 'reading_time_minutes', 'order', 'published_at', 'scheduled_at', 'submitted_at',
+    'proofread_at', 'proofread_by_id', 'proofreader_notes', 'revision_notes',
     'allow_comments', 'comment_moderation_mode', 'meta_title', 'meta_description',
 ])]
 class Article extends Model implements HasMedia
@@ -26,6 +28,10 @@ class Article extends Model implements HasMedia
         static::creating(function (Article $article) {
             if (blank($article->slug)) {
                 $article->slug = TamilSlugger::unique(static::class, $article->title);
+            }
+
+            if (blank($article->created_by_id) && auth()->check()) {
+                $article->created_by_id = auth()->id();
             }
         });
     }
@@ -39,6 +45,8 @@ class Article extends Model implements HasMedia
             'allow_comments' => 'boolean',
             'published_at' => 'datetime',
             'scheduled_at' => 'datetime',
+            'submitted_at' => 'datetime',
+            'proofread_at' => 'datetime',
         ];
     }
 
@@ -70,5 +78,20 @@ class Article extends Model implements HasMedia
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'article_tag');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function proofreadBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'proofread_by_id');
     }
 }

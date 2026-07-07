@@ -20,6 +20,22 @@ class DatabaseSeeder extends Seeder
         );
         $admin->assignRole('Admin');
 
+        $roleUsers = [
+            'editor-in-chief@athirven.test' => ['Editor-in-Chief', 'Editor In Chief (test)'],
+            'sub-editor@athirven.test' => ['Sub-Editor', 'Sub Editor (test)'],
+            'writer@athirven.test' => ['Writer', 'Writer (test)'],
+            'proofreader@athirven.test' => ['Proofreader', 'Proofreader (test)'],
+            'designer@athirven.test' => ['Designer', 'Designer (test)'],
+        ];
+
+        foreach ($roleUsers as $email => [$role, $name]) {
+            $user = User::firstOrCreate(
+                ['email' => $email],
+                ['name' => $name, 'password' => bcrypt('password')]
+            );
+            $user->syncRoles([$role]);
+        }
+
         $this->call(DemoContentSeeder::class);
     }
 }

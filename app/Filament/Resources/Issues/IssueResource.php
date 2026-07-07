@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Issues;
 use App\Filament\Resources\Issues\Pages\CreateIssue;
 use App\Filament\Resources\Issues\Pages\EditIssue;
 use App\Filament\Resources\Issues\Pages\ListIssues;
+use App\Filament\Resources\Issues\RelationManagers\ArticlesRelationManager;
 use App\Filament\Resources\Issues\Schemas\IssueForm;
 use App\Filament\Resources\Issues\Tables\IssuesTable;
 use App\Models\Issue;
@@ -37,7 +38,7 @@ class IssueResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ArticlesRelationManager::class,
         ];
     }
 

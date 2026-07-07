@@ -6,11 +6,14 @@ use App\Enums\ArticleAuthorRole;
 use App\Enums\ArticleStatus;
 use App\Enums\ArticleType;
 use App\Enums\IssueStatus;
+use App\Enums\CommentStatus;
 use App\Models\Article;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Issue;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DemoContentSeeder extends Seeder
@@ -46,6 +49,7 @@ class DemoContentSeeder extends Seeder
         ]);
 
         $now = now();
+        $writerId = User::where('email', 'writer@athirven.test')->value('id');
 
         $issue = Issue::create([
             'issue_number' => 1,
@@ -89,6 +93,7 @@ class DemoContentSeeder extends Seeder
 
         $article3 = Article::create([
             'category_id' => $politics->id,
+            'created_by_id' => $writerId,
             'type' => ArticleType::Interview,
             'status' => ArticleStatus::Draft,
             'title' => 'களப்பணி குறித்த ஒரு உரையாடல் (வரைவு)',
@@ -99,6 +104,27 @@ class DemoContentSeeder extends Seeder
         ]);
         $article3->authors()->attach($pseudonymous->id, ['role' => ArticleAuthorRole::Interviewee->value, 'sort_order' => 1]);
 
-        $this->command->info('Demo content seeded: 1 issue, 3 articles, 2 authors, 4 categories, 4 tags.');
+        $article4 = Article::create([
+            'category_id' => $culture->id,
+            'created_by_id' => $writerId,
+            'type' => ArticleType::BookReview,
+            'status' => ArticleStatus::Submitted,
+            'title' => 'ஒரு புத்தக விமர்சனம் (மதிப்பாய்வுக்காக)',
+            'excerpt' => 'மதிப்பாய்வு வரிசையை சோதிக்க சமர்ப்பிக்கப்பட்ட கட்டுரை.',
+            'body' => '<p>மதிப்பாய்வுக்கு காத்திருக்கும் உள்ளடக்கம்.</p>',
+            'submitted_at' => $now->copy()->subDays(2),
+            'order' => 1,
+        ]);
+        $article4->authors()->attach($editor->id, ['role' => ArticleAuthorRole::Author->value, 'sort_order' => 1]);
+
+        Comment::create([
+            'article_id' => $article1->id,
+            'author_display_name' => 'ஒரு வாசகர்',
+            'body' => 'நல்ல முயற்சி, தொடர்ந்து வெளியிடுங்கள்.',
+            'status' => CommentStatus::Pending,
+            'ip_hash' => hash('sha256', '127.0.0.1'.config('app.key')),
+        ]);
+
+        $this->command->info('Demo content seeded: 1 issue, 4 articles, 2 authors, 4 categories, 4 tags, 1 comment.');
     }
 }
