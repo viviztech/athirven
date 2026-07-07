@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\IssueStatus;
 use App\Support\TamilSlugger;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -14,6 +16,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Issue extends Model implements HasMedia
 {
     use InteractsWithMedia;
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->where('status', IssueStatus::Published);
+    }
 
     protected static function booted(): void
     {

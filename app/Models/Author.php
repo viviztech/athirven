@@ -15,6 +15,11 @@ class Author extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     protected static function booted(): void
     {
         static::creating(function (Author $author) {

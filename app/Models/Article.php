@@ -6,6 +6,8 @@ use App\Enums\ArticleStatus;
 use App\Enums\ArticleType;
 use App\Support\TamilSlugger;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,6 +24,18 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Article extends Model implements HasMedia
 {
     use InteractsWithMedia;
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->where('status', ArticleStatus::Published)
+            ->where('published_at', '<=', now());
+    }
 
     protected static function booted(): void
     {
@@ -83,6 +97,11 @@ class Article extends Model implements HasMedia
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function embeds(): HasMany
+    {
+        return $this->hasMany(ArticleEmbed::class)->orderBy('sort_order');
     }
 
     public function createdBy(): BelongsTo

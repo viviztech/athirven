@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Enums\ArticleAuthorRole;
+use App\Enums\ArticleEmbedProvider;
+use App\Enums\ArticleEmbedType;
 use App\Enums\ArticleType;
 use App\Models\Article;
 use App\Models\Author;
@@ -87,6 +89,35 @@ class ArticleForm
                             ->columns(3)
                             ->defaultItems(1)
                             ->addActionLabel('Add byline'),
+                    ]),
+
+                Section::make('Audio & Video')
+                    ->schema([
+                        Repeater::make('embeds')
+                            ->relationship('embeds')
+                            ->label('Embeds')
+                            ->schema([
+                                Select::make('type')
+                                    ->options(ArticleEmbedType::class)
+                                    ->default(ArticleEmbedType::Video)
+                                    ->required(),
+                                Select::make('provider')
+                                    ->options(ArticleEmbedProvider::class)
+                                    ->default(ArticleEmbedProvider::YouTube)
+                                    ->required(),
+                                TextInput::make('url')
+                                    ->label('URL')
+                                    ->url()
+                                    ->required()
+                                    ->columnSpanFull(),
+                                TextInput::make('caption')
+                                    ->columnSpanFull(),
+                                TextInput::make('sort_order')
+                                    ->numeric()
+                                    ->default(0),
+                            ])
+                            ->columns(3)
+                            ->addActionLabel('Add audio/video embed'),
                     ]),
 
                 Section::make('Publishing')

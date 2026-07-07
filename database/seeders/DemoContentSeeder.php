@@ -3,11 +3,14 @@
 namespace Database\Seeders;
 
 use App\Enums\ArticleAuthorRole;
+use App\Enums\ArticleEmbedProvider;
+use App\Enums\ArticleEmbedType;
 use App\Enums\ArticleStatus;
 use App\Enums\ArticleType;
-use App\Enums\IssueStatus;
 use App\Enums\CommentStatus;
+use App\Enums\IssueStatus;
 use App\Models\Article;
+use App\Models\ArticleEmbed;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Comment;
@@ -75,6 +78,14 @@ class DemoContentSeeder extends Seeder
         ]);
         $article1->authors()->attach($editor->id, ['role' => ArticleAuthorRole::Author->value, 'sort_order' => 1]);
         $article1->tags()->attach($tags->firstWhere('name_ta', 'அரசியல்')->id);
+        ArticleEmbed::create([
+            'article_id' => $article1->id,
+            'type' => ArticleEmbedType::Video,
+            'provider' => ArticleEmbedProvider::YouTube,
+            'url' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
+            'caption' => 'மாதிரி வீடியோ இணைப்பு (placeholder — உண்மையான காணொளியால் மாற்றவும்)',
+            'sort_order' => 1,
+        ]);
 
         $article2 = Article::create([
             'issue_id' => $issue->id,
@@ -117,6 +128,22 @@ class DemoContentSeeder extends Seeder
         ]);
         $article4->authors()->attach($editor->id, ['role' => ArticleAuthorRole::Author->value, 'sort_order' => 1]);
 
+        $article5 = Article::create([
+            'issue_id' => $issue->id,
+            'category_id' => $politics->id,
+            'created_by_id' => $writerId,
+            'type' => ArticleType::CoverStory,
+            'status' => ArticleStatus::Published,
+            'title' => 'சந்தாதாரர் சிறப்புக் கட்டுரை: ஆழமான பகுப்பாய்வு',
+            'excerpt' => 'இது ஒரு சந்தாதாரர்களுக்கான சிறப்புக் கட்டுரை — paywall-gate சோதனைக்காக.',
+            'body' => '<p>இந்த கட்டுரையின் முழு உள்ளடக்கமும் சந்தாதாரர்களுக்கு மட்டுமே கிடைக்கும். இது ஒரு நீண்ட மாதிரி/சோதனை உள்ளடக்கம் — paywall-gate கூறு, குறிப்பிட்ட எழுத்து எண்ணிக்கைக்குப் பிறகு கட்டுரையை துண்டித்து, மீதமுள்ளதை சந்தாதாரர்களுக்கு மட்டும் காட்டுவதை உறுதிசெய்ய, இந்த பத்தி வேண்டுமென்றே நீளமாக எழுதப்பட்டுள்ளது.</p><p>இரண்டாவது பத்தி — இது paywall வரம்பிற்குப் பிறகு வர வேண்டும், எனவே இயல்பான வாசகர்களுக்கு இது தெரியக்கூடாது. இந்த வாக்கியம் இங்கே தெரிந்தால், துண்டிக்கும் வரம்பு சரியாக வேலை செய்யவில்லை என்று பொருள்.</p><p>கூடுதல் பத்தி இங்கே — சோதனை நோக்கத்திற்காக மட்டும்.</p>',
+            'is_premium' => true,
+            'published_at' => $now,
+            'order' => 3,
+        ]);
+        $article5->authors()->attach($editor->id, ['role' => ArticleAuthorRole::Author->value, 'sort_order' => 1]);
+        $article5->tags()->attach($tags->firstWhere('name_ta', 'வரலாறு')->id);
+
         Comment::create([
             'article_id' => $article1->id,
             'author_display_name' => 'ஒரு வாசகர்',
@@ -125,6 +152,6 @@ class DemoContentSeeder extends Seeder
             'ip_hash' => hash('sha256', '127.0.0.1'.config('app.key')),
         ]);
 
-        $this->command->info('Demo content seeded: 1 issue, 4 articles, 2 authors, 4 categories, 4 tags, 1 comment.');
+        $this->command->info('Demo content seeded: 1 issue, 5 articles, 2 authors, 4 categories, 4 tags, 1 comment, 1 embed.');
     }
 }
