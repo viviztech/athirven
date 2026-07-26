@@ -3,6 +3,7 @@
 use App\Enums\CommentStatus;
 use App\Models\Article;
 use App\Models\Comment;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -36,6 +37,16 @@ new class extends Component
     public function submit(): void
     {
         $this->validate();
+
+        $rateLimitKey = 'comment-submit:'.request()->ip();
+
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 5)) {
+            $this->addError('body', 'அதிக முயற்சிகள். சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.');
+
+            return;
+        }
+
+        RateLimiter::hit($rateLimitKey, 300);
 
         // Pre-moderation is the default for political categories (see docs/architecture.md);
         // post-moderated articles publish the comment immediately instead.

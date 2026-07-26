@@ -37,9 +37,9 @@ Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register')->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store'])->middleware(['guest', 'throttle:register']);
 Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
+Route::post('/login', [LoginController::class, 'store'])->middleware(['guest', 'throttle:login']);
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
 
 Route::get('/subscribe', [SubscriptionController::class, 'index'])->name('subscriptions.index');
@@ -49,7 +49,7 @@ Route::get('/subscribe/{plan}', [SubscriptionController::class, 'show'])->name('
 Route::post('/subscribe/{plan}', [SubscriptionController::class, 'checkout'])->name('subscriptions.checkout')->middleware('auth');
 
 Route::get('/donate', [DonationController::class, 'index'])->name('donations.index');
-Route::post('/donate', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donate', [DonationController::class, 'store'])->name('donations.store')->middleware('throttle:donations');
 Route::get('/donate/success', [DonationController::class, 'success'])->name('donations.success');
 
 Route::get('/account', [AccountController::class, 'index'])->name('account')->middleware('auth');
@@ -64,5 +64,5 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 Route::get('/feed.xml', [FeedController::class, 'index'])->name('feed');
 Route::get('/robots.txt', [RobotsController::class, 'index'])->name('robots');
 
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe')->middleware('throttle:newsletter');
 Route::get('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'destroy'])->name('newsletter.unsubscribe');

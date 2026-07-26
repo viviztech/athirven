@@ -47,10 +47,13 @@ class IssueForm
                     ->label('Print + digital (premium) issue'),
                 SpatieMediaLibraryFileUpload::make('cover_image')
                     ->collection('cover_image')
-                    ->image(),
+                    ->image()
+                    ->maxSize(5120)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']),
                 SpatieMediaLibraryFileUpload::make('issue_pdf')
                     ->collection('issue_pdf')
                     ->acceptedFileTypes(['application/pdf'])
+                    ->maxSize(20480)
                     ->helperText('Upload the full-issue PDF as laid out externally (InDesign/Canva).'),
             ]);
     }

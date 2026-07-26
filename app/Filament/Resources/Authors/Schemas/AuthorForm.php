@@ -41,7 +41,9 @@ class AuthorForm
                 SpatieMediaLibraryFileUpload::make('photo')
                     ->collection('photo')
                     ->image()
-                    ->avatar(),
+                    ->avatar()
+                    ->maxSize(5120)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']),
 
                 KeyValue::make('social_links')
                     ->keyLabel('Platform')

@@ -59,6 +59,8 @@ class ArticleForm
                         SpatieMediaLibraryFileUpload::make('featured_image')
                             ->collection('featured_image')
                             ->image()
+                            ->maxSize(5120)
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->columnSpanFull(),
                         Select::make('tags')
                             ->relationship('tags', 'name_ta')
