@@ -1,17 +1,17 @@
 <x-frontend.layout title="இதழ்கள்">
-    <h1 class="text-3xl font-semibold">இதழ்கள்</h1>
+    <h1 class="font-headline text-3xl font-bold text-ink">இதழ்கள்</h1>
 
-    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+    <div class="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2">
         @forelse ($issues as $issue)
-            <a href="{{ route('issues.show', $issue) }}" class="block rounded-lg border border-gray-200 p-5 hover:border-gray-400 dark:border-gray-800 dark:hover:border-gray-600">
-                <p class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">இதழ் {{ $issue->issue_number }}</p>
-                <h2 class="mt-1 text-lg font-semibold">{{ $issue->title }}</h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <a href="{{ route('issues.show', $issue) }}" class="group block border-t-2 border-ink pt-4 hover:border-ambedkar">
+                <p class="font-meta text-xs tracking-wider text-slate uppercase">இதழ் {{ $issue->issue_number }}</p>
+                <h2 class="mt-2 font-headline text-xl font-bold text-ink group-hover:text-ambedkar">{{ $issue->title }}</h2>
+                <p class="mt-2 font-meta text-xs tracking-wider text-slate uppercase">
                     {{ $issue->publish_date?->translatedFormat('F Y') }}
                 </p>
             </a>
         @empty
-            <p class="text-gray-500 dark:text-gray-400">இன்னும் எந்த இதழும் வெளியிடப்படவில்லை.</p>
+            <p class="text-slate">இன்னும் எந்த இதழும் வெளியிடப்படவில்லை.</p>
         @endforelse
     </div>
 

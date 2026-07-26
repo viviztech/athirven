@@ -70,23 +70,23 @@ new class extends Component
 ?>
 
 <div>
-    <h2 class="text-xl font-semibold">கருத்துகள் ({{ $this->approvedComments->count() }})</h2>
+    <h2 class="font-headline text-xl font-bold text-ink">கருத்துகள் ({{ $this->approvedComments->count() }})</h2>
 
     <div class="mt-6 space-y-6">
         @forelse ($this->approvedComments as $comment)
-            <div class="border-b border-gray-100 pb-4 dark:border-gray-800">
-                <p class="text-sm font-medium">{{ $comment->author_display_name }}</p>
-                <p class="mt-1 text-gray-700 dark:text-gray-300">{{ $comment->body }}</p>
-                <p class="mt-1 text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
+            <div class="border-b border-hairline pb-4">
+                <p class="font-meta text-xs tracking-wider text-ink uppercase">{{ $comment->author_display_name }}</p>
+                <p class="mt-2 text-ink">{{ $comment->body }}</p>
+                <p class="mt-2 font-meta text-[11px] text-slate">{{ $comment->created_at->diffForHumans() }}</p>
             </div>
         @empty
-            <p class="text-gray-500 dark:text-gray-400">இதுவரை கருத்துகள் இல்லை.</p>
+            <p class="text-slate">இதுவரை கருத்துகள் இல்லை.</p>
         @endforelse
     </div>
 
-    <div class="mt-8 rounded-lg border border-gray-200 p-5 dark:border-gray-800">
+    <div class="mt-8 border border-hairline p-5">
         @if ($submitted)
-            <p class="text-green-700 dark:text-green-400">
+            <p class="font-meta text-sm text-ambedkar">
                 உங்கள் கருத்து சமர்ப்பிக்கப்பட்டது. மதிப்பாய்வுக்குப் பிறகு வெளியிடப்படும்.
             </p>
         @else
@@ -96,7 +96,7 @@ new class extends Component
                         type="text"
                         wire:model="authorName"
                         placeholder="உங்கள் பெயர் (புனைப்பெயராகவும் இருக்கலாம்)"
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+                        class="w-full border border-hairline bg-paper-raised px-3 py-2 text-ink placeholder:text-slate focus:border-ambedkar focus:outline-none"
                     >
                     @error('authorName') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
@@ -105,11 +105,11 @@ new class extends Component
                         wire:model="body"
                         rows="3"
                         placeholder="உங்கள் கருத்து..."
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+                        class="w-full border border-hairline bg-paper-raised px-3 py-2 text-ink placeholder:text-slate focus:border-ambedkar focus:outline-none"
                     ></textarea>
                     @error('body') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
-                <button type="submit" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-gray-900">
+                <button type="submit" class="bg-ambedkar px-4 py-2 font-meta text-xs tracking-wider text-white uppercase hover:bg-ambedkar-ink">
                     சமர்ப்பிக்கவும்
                 </button>
             </form>

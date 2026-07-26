@@ -35,18 +35,18 @@ new class extends Component
         wire:model.live.debounce.400ms="query"
         placeholder="தேடல்..."
         autofocus
-        class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-gray-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900"
+        class="w-full border border-hairline bg-paper-raised px-4 py-3 text-ink placeholder:text-slate focus:border-ambedkar focus:outline-none"
     >
 
-    <div class="mt-8 space-y-8">
+    <div class="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2">
         @if (mb_strlen(trim($query)) >= 2)
             @forelse ($this->results as $article)
                 <x-frontend.article-card :article="$article" />
             @empty
-                <p class="text-gray-500 dark:text-gray-400">"{{ $query }}" க்கு பொருந்தும் கட்டுரைகள் இல்லை.</p>
+                <p class="text-slate">"{{ $query }}" க்கு பொருந்தும் கட்டுரைகள் இல்லை.</p>
             @endforelse
         @else
-            <p class="text-gray-500 dark:text-gray-400">தேட குறைந்தது 2 எழுத்துகள் தட்டச்சு செய்யவும்.</p>
+            <p class="text-slate">தேட குறைந்தது 2 எழுத்துகள் தட்டச்சு செய்யவும்.</p>
         @endif
     </div>
 </div>

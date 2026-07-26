@@ -1,8 +1,8 @@
 @props(['videoId', 'caption' => null])
 
 @if ($videoId)
-    <div class="my-4">
-        <div class="relative aspect-video overflow-hidden rounded-lg">
+    <div>
+        <div class="relative aspect-video overflow-hidden bg-hairline">
             <iframe
                 class="absolute inset-0 h-full w-full"
                 src="https://www.youtube-nocookie.com/embed/{{ $videoId }}"
@@ -13,7 +13,7 @@
             ></iframe>
         </div>
         @if ($caption)
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $caption }}</p>
+            <p class="mt-2 font-meta text-xs text-slate">{{ $caption }}</p>
         @endif
     </div>
 @endif

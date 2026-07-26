@@ -5,21 +5,22 @@
     $telegramUrl = 'https://t.me/share/url?url='.rawurlencode($url).'&text='.rawurlencode($title);
 @endphp
 
-<div class="flex flex-wrap gap-2 text-sm">
+<div class="flex flex-wrap items-center gap-4 font-meta text-xs tracking-wider uppercase">
+    <span class="text-slate">பகிரவும்</span>
     <a
         href="{{ $whatsappUrl }}"
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-full border border-gray-300 px-3 py-1 text-gray-600 hover:border-gray-500 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-500"
+        class="border border-hairline px-3 py-1.5 text-ink hover:border-ambedkar hover:text-ambedkar"
     >
-        WhatsApp-ல் பகிரவும்
+        WhatsApp
     </a>
     <a
         href="{{ $telegramUrl }}"
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-full border border-gray-300 px-3 py-1 text-gray-600 hover:border-gray-500 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-500"
+        class="border border-hairline px-3 py-1.5 text-ink hover:border-ambedkar hover:text-ambedkar"
     >
-        Telegram-ல் பகிரவும்
+        Telegram
     </a>
 </div>

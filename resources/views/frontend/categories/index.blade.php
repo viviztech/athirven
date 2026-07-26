@@ -1,18 +1,18 @@
 <x-frontend.layout title="பிரிவுகள்">
-    <h1 class="text-3xl font-semibold">பிரிவுகள்</h1>
+    <h1 class="font-headline text-3xl font-bold text-ink">பிரிவுகள்</h1>
 
-    <div class="mt-8 space-y-6">
+    <div class="mt-10 space-y-8">
         @foreach ($categories as $category)
-            <div>
-                <a href="{{ route('categories.show', $category) }}" class="text-lg font-semibold hover:underline">
+            <div class="border-b border-hairline pb-8">
+                <a href="{{ route('categories.show', $category) }}" class="font-headline text-lg font-bold text-ink hover:text-ambedkar">
                     {{ $category->name_ta }}
                 </a>
                 @if ($category->children->isNotEmpty())
-                    <div class="mt-2 flex flex-wrap gap-2">
+                    <div class="mt-3 flex flex-wrap gap-2 font-meta text-xs uppercase">
                         @foreach ($category->children as $child)
                             <a
                                 href="{{ route('categories.show', $child) }}"
-                                class="rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-600 hover:border-gray-500 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-500"
+                                class="border border-hairline px-3 py-1 text-slate hover:border-ambedkar hover:text-ambedkar"
                             >
                                 {{ $child->name_ta }}
                             </a>

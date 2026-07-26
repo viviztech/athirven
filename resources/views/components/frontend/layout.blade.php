@@ -4,7 +4,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ $title ? "{$title} — அதிர்வெண்" : 'அதிர்வெண்' }}</title>
+        <meta name="theme-color" content="#1636c7">
+        <title>{{ $title ? "{$title} — அதிர்வெண்" : 'அதிர்வெண் — தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்' }}</title>
         @if ($description)
             <meta name="description" content="{{ $description }}">
         @endif
@@ -31,68 +32,89 @@
         @vite(['resources/css/app.css'])
         @livewireStyles
     </head>
-    <body class="font-tamil min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
-        <header class="border-b border-gray-200 dark:border-gray-800">
-            <div class="mx-auto flex max-w-4xl items-center justify-between gap-4 px-6 py-5">
-                <a href="{{ route('home') }}" class="text-2xl font-semibold shrink-0">அதிர்வெண்</a>
-
-                <nav class="hidden sm:flex items-center gap-5 text-sm text-gray-600 dark:text-gray-400">
-                    <a href="{{ route('issues.index') }}" class="hover:text-gray-900 dark:hover:text-white">இதழ்கள்</a>
-                    <a href="{{ route('categories.index') }}" class="hover:text-gray-900 dark:hover:text-white">பிரிவுகள்</a>
-                </nav>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('search') }}" aria-label="தேடல்" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="7" />
-                            <path d="m21 21-4.35-4.35" />
-                        </svg>
-                    </a>
-                    @auth
-                        <a href="{{ route('account') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">என் கணக்கு</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">உள்நுழையவும்</a>
-                    @endauth
-                    <button
-                        type="button"
-                        aria-label="இருண்ட பயன்முறை"
-                        onclick="document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';"
-                        class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-                        </svg>
-                    </button>
+    <body class="font-tamil min-h-screen bg-paper text-ink antialiased">
+        <header>
+            {{-- Utility bar: dateline + reader controls, press-credential register --}}
+            <div class="border-b border-hairline">
+                <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-2 font-meta text-[11px] tracking-wider text-slate uppercase">
+                    <span>{{ now()->translatedFormat('d F Y') }}</span>
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('search') }}" aria-label="தேடல்" class="text-slate hover:text-ambedkar">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg>
+                        </a>
+                        @auth
+                            <a href="{{ route('account') }}" class="hover:text-ambedkar">என் கணக்கு</a>
+                        @else
+                            <a href="{{ route('login') }}" class="hover:text-ambedkar">உள்நுழையவும்</a>
+                        @endauth
+                        <button
+                            type="button"
+                            aria-label="இருண்ட பயன்முறை"
+                            onclick="document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';"
+                            class="text-slate hover:text-ambedkar"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {{-- Nameplate --}}
+            <div class="mx-auto max-w-6xl px-6 py-10 text-center">
+                <a href="{{ route('home') }}" class="font-tamil text-5xl leading-none tracking-tight text-ink sm:text-6xl">அதிர்வெண்</a>
+                <p class="mt-3 font-meta text-[11px] tracking-[0.2em] text-slate uppercase">தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்</p>
+            </div>
+
+            <x-frontend.waveform class="waveform-divider mx-auto max-w-6xl px-6" />
+
+            <nav class="border-b border-hairline">
+                <div class="mx-auto flex max-w-6xl items-center justify-center gap-8 px-6 py-3 font-meta text-xs tracking-wider uppercase">
+                    <a href="{{ route('issues.index') }}" class="text-ink hover:text-ambedkar">இதழ்கள்</a>
+                    <a href="{{ route('categories.index') }}" class="text-ink hover:text-ambedkar">பிரிவுகள்</a>
+                </div>
+            </nav>
         </header>
 
-        <main class="mx-auto max-w-4xl px-6 py-10">
+        <main class="mx-auto max-w-6xl px-6 py-12">
             {{ $slot }}
         </main>
 
-        <footer class="border-t border-gray-200 mt-16 dark:border-gray-800">
-            <div class="mx-auto max-w-4xl px-6 py-8">
+        <footer class="border-t border-hairline">
+            <div class="mx-auto max-w-6xl px-6 py-10">
                 @if (session('status'))
-                    <p class="mb-4 text-sm text-green-700 dark:text-green-400">{{ session('status') }}</p>
+                    <p class="mb-4 font-meta text-sm text-ambedkar">{{ session('status') }}</p>
                 @endif
 
-                <form method="POST" action="{{ route('newsletter.subscribe') }}" class="flex max-w-sm gap-2">
-                    @csrf
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        placeholder="மின்னஞ்சல் — புதிய கட்டுரைகளுக்கு சந்தா செய்யுங்கள்"
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-                    >
-                    <button type="submit" class="shrink-0 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-gray-900">
-                        சந்தா
-                    </button>
-                </form>
+                <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                        <p class="font-tamil text-lg text-ink">அதிர்வெண்</p>
+                        <p class="mt-1 max-w-xs text-sm text-slate">
+                            தலித் அரசியல் மற்றும் பண்பாட்டு விவாதங்களை ஆவணப்படுத்தும் மாத இதழ்.
+                        </p>
+                    </div>
 
-                <p class="mt-6 text-sm text-gray-500 dark:text-gray-400">
-                    &copy; {{ now()->year }} அதிர்வெண். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
+                    <form method="POST" action="{{ route('newsletter.subscribe') }}" class="flex w-full max-w-sm gap-2">
+                        @csrf
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="மின்னஞ்சல் முகவரி"
+                            class="w-full rounded-none border border-hairline bg-paper-raised px-3 py-2 text-sm text-ink placeholder:text-slate focus:border-ambedkar focus:outline-none"
+                        >
+                        <button type="submit" class="shrink-0 bg-ambedkar px-4 py-2 font-meta text-xs tracking-wider text-white uppercase hover:bg-ambedkar-ink">
+                            சந்தா
+                        </button>
+                    </form>
+                </div>
+
+                <p class="mt-8 font-meta text-[11px] tracking-wider text-slate uppercase">
+                    &copy; {{ now()->year }} அதிர்வெண் — அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை
                 </p>
             </div>
         </footer>
