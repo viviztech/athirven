@@ -20,6 +20,13 @@ until php artisan db:show > /dev/null 2>&1; do
     sleep 2
 done
 
+# storage/app/public is a persistent Docker volume (uploaded media survives
+# redeploys) — it can be (re-)initialized by Docker with root ownership on
+# first mount regardless of what the image sets, so re-assert www-data
+# ownership on every start rather than relying on the image alone.
+mkdir -p storage/app/public
+chown -R www-data:www-data storage/app/public
+
 php artisan migrate --force
 
 # Every seeder here is idempotent (firstOrCreate, or an explicit "skip if

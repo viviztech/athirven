@@ -38,7 +38,7 @@ WORKDIR /var/www/html
 COPY --from=vendor /app ./
 COPY --from=frontend /app/public/build ./public/build
 
-RUN mkdir -p storage/framework/{cache,sessions,testing,views} storage/logs bootstrap/cache \
+RUN mkdir -p storage/app/public storage/framework/{cache,sessions,testing,views} storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
 COPY docker/nginx.conf /etc/nginx/sites-available/default
