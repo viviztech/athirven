@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  * script-src because the layout has legitimate inline scripts (dark-mode
  * toggle, service worker registration) — a nonce-based CSP would need to
  * touch every inline script and is left as a follow-up, not attempted here.
+ * 'unsafe-eval' is also required in script-src: Alpine.js/Livewire (which
+ * drives both the Filament admin panel and the public site's Livewire
+ * components) evaluates directive expressions via `new Function()` — without
+ * it, Alpine throws on every x-data/x-on binding and Livewire actions
+ * (including the admin login form itself) never fire.
  *
  * The CSP is skipped outside production: Vite's dev server serves assets
  * cross-origin (http://[::1]:5173, per components/frontend/layout.blade.php's
@@ -36,7 +41,7 @@ class SecurityHeaders
         if (app()->environment('production')) {
             $response->headers->set('Content-Security-Policy', implode('; ', [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://plausible.io",
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://plausible.io",
                 "style-src 'self' 'unsafe-inline'",
                 "img-src 'self' data: https: blob:",
                 "font-src 'self' data:",
