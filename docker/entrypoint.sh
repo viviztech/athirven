@@ -22,6 +22,12 @@ done
 
 php artisan migrate --force
 
+# Every seeder here is idempotent (firstOrCreate, or an explicit "skip if
+# data already exists" guard in Demo/SubscriptionPlan seeders) — safe to run
+# on every container start, not just the first one. This is what gives a
+# freshly provisioned database its Admin login and role/permission set.
+php artisan db:seed --force
+
 # storage:link errors if the symlink already exists (e.g. on redeploy of the
 # same volume) — that's expected, not a failure.
 php artisan storage:link || true
