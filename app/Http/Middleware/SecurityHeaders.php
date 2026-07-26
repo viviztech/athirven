@@ -19,7 +19,10 @@ use Symfony\Component\HttpFoundation\Response;
  * drives both the Filament admin panel and the public site's Livewire
  * components) evaluates directive expressions via `new Function()` — without
  * it, Alpine throws on every x-data/x-on binding and Livewire actions
- * (including the admin login form itself) never fire.
+ * (including the admin login form itself) never fire. static.cloudflareinsights.com
+ * is Cloudflare's own auto-injected analytics beacon (added once the site sat
+ * behind Cloudflare's proxy) — outside this app's control, but still needs an
+ * explicit allowance or it's a CSP violation on every page load.
  *
  * The CSP is skipped outside production: Vite's dev server serves assets
  * cross-origin (http://[::1]:5173, per components/frontend/layout.blade.php's
@@ -41,7 +44,7 @@ class SecurityHeaders
         if (app()->environment('production')) {
             $response->headers->set('Content-Security-Policy', implode('; ', [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://plausible.io",
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://plausible.io https://static.cloudflareinsights.com",
                 "style-src 'self' 'unsafe-inline'",
                 "img-src 'self' data: https: blob:",
                 "font-src 'self' data:",
