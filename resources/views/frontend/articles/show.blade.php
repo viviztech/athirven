@@ -1,5 +1,17 @@
 @php $featuredImageUrl = $article->getFirstMediaUrl('featured_image'); @endphp
 <x-frontend.layout :title="$article->title" :description="$article->meta_description ?? $article->excerpt">
+    <x-frontend.json-ld :data="[
+        '@context' => 'https://schema.org',
+        '@type' => 'NewsArticle',
+        'headline' => $article->title,
+        'datePublished' => $article->published_at?->toIso8601String(),
+        'dateModified' => $article->updated_at->toIso8601String(),
+        'author' => $article->authors->map(fn ($author) => ['@type' => 'Person', 'name' => $author->pen_name])->all(),
+        'image' => $featuredImageUrl ? [$featuredImageUrl] : [],
+        'publisher' => ['@type' => 'Organization', 'name' => 'அதிர்வெண்'],
+        'mainEntityOfPage' => route('articles.show', $article),
+    ]" />
+
     <article>
         <p class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
             {{ $article->type->getLabel() }}
@@ -56,6 +68,10 @@
                 @endforeach
             </div>
         @endif
+
+        <div class="mt-8">
+            <x-frontend.share-buttons :url="route('articles.show', $article)" :title="$article->title" />
+        </div>
     </article>
 
     @if ($article->allow_comments)

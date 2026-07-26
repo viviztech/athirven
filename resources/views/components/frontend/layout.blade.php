@@ -9,6 +9,19 @@
             <meta name="description" content="{{ $description }}">
         @endif
 
+        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+
+        <x-frontend.json-ld :data="[
+            '@context' => 'https://schema.org',
+            '@type' => 'Organization',
+            'name' => 'அதிர்வெண்',
+            'url' => route('home'),
+        ]" />
+
+        @if (config('services.plausible.domain'))
+            <script defer data-domain="{{ config('services.plausible.domain') }}" src="https://plausible.io/js/script.js"></script>
+        @endif
+
         <script>
             if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
@@ -59,10 +72,36 @@
         </main>
 
         <footer class="border-t border-gray-200 mt-16 dark:border-gray-800">
-            <div class="mx-auto max-w-4xl px-6 py-8 text-sm text-gray-500 dark:text-gray-400">
-                &copy; {{ now()->year }} அதிர்வெண். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
+            <div class="mx-auto max-w-4xl px-6 py-8">
+                @if (session('status'))
+                    <p class="mb-4 text-sm text-green-700 dark:text-green-400">{{ session('status') }}</p>
+                @endif
+
+                <form method="POST" action="{{ route('newsletter.subscribe') }}" class="flex max-w-sm gap-2">
+                    @csrf
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="மின்னஞ்சல் — புதிய கட்டுரைகளுக்கு சந்தா செய்யுங்கள்"
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
+                    >
+                    <button type="submit" class="shrink-0 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-gray-900">
+                        சந்தா
+                    </button>
+                </form>
+
+                <p class="mt-6 text-sm text-gray-500 dark:text-gray-400">
+                    &copy; {{ now()->year }} அதிர்வெண். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
+                </p>
             </div>
         </footer>
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js');
+            }
+        </script>
 
         @livewireScripts
     </body>

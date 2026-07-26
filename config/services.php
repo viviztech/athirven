@@ -41,4 +41,13 @@ return [
         'webhook_secret' => env('RAZORPAY_WEBHOOK_SECRET'),
     ],
 
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'channel_chat_id' => env('TELEGRAM_CHANNEL_CHAT_ID'),
+    ],
+
+    'plausible' => [
+        'domain' => env('PLAUSIBLE_DOMAIN'),
+    ],
+
 ];

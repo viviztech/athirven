@@ -7,9 +7,13 @@ use App\Http\Controllers\Frontend\Auth\RegisterController;
 use App\Http\Controllers\Frontend\AuthorController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\DonationController;
+use App\Http\Controllers\Frontend\FeedController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\IssueController;
+use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\RobotsController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\TagController;
 use App\Http\Controllers\Webhooks\RazorpayWebhookController;
@@ -55,3 +59,10 @@ Route::post('/account/subscriptions/{subscription}/cancel', [AccountController::
 
 Route::post('/webhooks/stripe', [StripeWebhookController::class, 'handleWebhook'])->name('webhooks.stripe');
 Route::post('/webhooks/razorpay', RazorpayWebhookController::class)->name('webhooks.razorpay');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/feed.xml', [FeedController::class, 'index'])->name('feed');
+Route::get('/robots.txt', [RobotsController::class, 'index'])->name('robots');
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+Route::get('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'destroy'])->name('newsletter.unsubscribe');

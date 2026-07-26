@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
     'issue_id', 'category_id', 'created_by_id', 'type', 'status', 'title', 'slug', 'subtitle', 'excerpt', 'body',
-    'is_premium', 'reading_time_minutes', 'order', 'published_at', 'scheduled_at', 'submitted_at',
+    'is_premium', 'reading_time_minutes', 'order', 'published_at', 'digest_sent_at', 'scheduled_at', 'submitted_at',
     'proofread_at', 'proofread_by_id', 'proofreader_notes', 'revision_notes',
     'allow_comments', 'comment_moderation_mode', 'meta_title', 'meta_description',
 ])]
@@ -58,6 +58,7 @@ class Article extends Model implements HasMedia
             'is_premium' => 'boolean',
             'allow_comments' => 'boolean',
             'published_at' => 'datetime',
+            'digest_sent_at' => 'datetime',
             'scheduled_at' => 'datetime',
             'submitted_at' => 'datetime',
             'proofread_at' => 'datetime',

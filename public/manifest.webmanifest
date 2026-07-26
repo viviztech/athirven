@@ -1,0 +1,17 @@
+{
+    "name": "அதிர்வெண்",
+    "short_name": "அதிர்வெண்",
+    "description": "தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#f59e0b",
+    "lang": "ta",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        }
+    ]
+}

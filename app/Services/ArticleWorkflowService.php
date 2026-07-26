@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ArticleStatus;
+use App\Events\ArticlePublished;
 use App\Exceptions\InvalidArticleTransitionException;
 use App\Models\Article;
 use App\Models\User;
@@ -83,6 +84,10 @@ class ArticleWorkflowService
 
         $article->status = $to;
         $article->save();
+
+        if ($to === ArticleStatus::Published) {
+            ArticlePublished::dispatch($article);
+        }
 
         return $article;
     }
