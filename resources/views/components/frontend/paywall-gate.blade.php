@@ -8,8 +8,12 @@
     <div class="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-6 text-center dark:border-amber-900 dark:bg-amber-950/40">
         <p class="font-semibold text-amber-900 dark:text-amber-200">இது சந்தாதாரர்களுக்கான கட்டுரை</p>
         <p class="mt-1 text-sm text-amber-800 dark:text-amber-300">
-            முழு கட்டுரையையும் படிக்க சந்தா பதிவு செய்யவும். (சந்தா முறை விரைவில் வரும்.)
+            முழு கட்டுரையையும் படிக்க சந்தா பதிவு செய்யவும்.
         </p>
+        <a href="{{ route('subscriptions.index') }}"
+           class="mt-4 inline-block rounded-md bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">
+            சந்தா செய்யுங்கள்
+        </a>
     </div>
 @else
     <div class="prose prose-gray dark:prose-invert max-w-none">

@@ -35,6 +35,11 @@
                             <path d="m21 21-4.35-4.35" />
                         </svg>
                     </a>
+                    @auth
+                        <a href="{{ route('account') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">என் கணக்கு</a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">உள்நுழையவும்</a>
+                    @endauth
                     <button
                         type="button"
                         aria-label="இருண்ட பயன்முறை"

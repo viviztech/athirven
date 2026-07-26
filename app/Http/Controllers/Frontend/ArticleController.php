@@ -14,10 +14,7 @@ class ArticleController extends Controller
 
         $article->load(['issue', 'category', 'tags', 'authors', 'embeds']);
 
-        // No reader accounts/subscriptions exist yet (that's Phase 4), so every
-        // premium article is gated for every visitor until real entitlement
-        // checks replace this constant.
-        $isEntitled = false;
+        $isEntitled = auth()->check() && auth()->user()->hasActiveSubscription();
 
         return view('frontend.articles.show', [
             'article' => $article,

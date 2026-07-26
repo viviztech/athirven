@@ -37,5 +37,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(DemoContentSeeder::class);
+        $this->call(SubscriptionPlanSeeder::class);
     }
 }

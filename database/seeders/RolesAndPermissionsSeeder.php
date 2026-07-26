@@ -22,7 +22,9 @@ class RolesAndPermissionsSeeder extends Seeder
             'comments.moderate',
             'users.manage',
             'subscriptions.manage',
+            'donations.manage',
             'ads.manage',
+            'revenue.view',
             'settings.manage',
             'authors.view-real-identity',
         ];
@@ -42,7 +44,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'articles.submit', 'articles.review', 'articles.approve', 'articles.reject',
             'articles.schedule', 'articles.publish', 'articles.archive', 'articles.delete',
             'issues.manage', 'media.upload', 'comments.moderate',
-            'subscriptions.manage', 'ads.manage', 'settings.manage',
+            'subscriptions.manage', 'donations.manage', 'ads.manage', 'revenue.view', 'settings.manage',
             'authors.view-real-identity',
         ]);
 
