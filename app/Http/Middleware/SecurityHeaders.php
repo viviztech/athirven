@@ -22,7 +22,13 @@ use Symfony\Component\HttpFoundation\Response;
  * (including the admin login form itself) never fire. static.cloudflareinsights.com
  * is Cloudflare's own auto-injected analytics beacon (added once the site sat
  * behind Cloudflare's proxy) — outside this app's control, but still needs an
- * explicit allowance or it's a CSP violation on every page load.
+ * explicit allowance or it's a CSP violation on every page load. worker-src
+ * needs its own 'blob:' allowance (not just img-src): Filament's file upload
+ * field spawns a Web Worker from a blob: URL to generate client-side image
+ * previews, and without an explicit worker-src, browsers fall back to
+ * script-src, which doesn't include blob: — the worker creation was blocked,
+ * so uploaded featured images previewed as a flat gray box instead of the
+ * actual image, even though the upload/save itself succeeded.
  *
  * The CSP is skipped outside production: Vite's dev server serves assets
  * cross-origin (http://[::1]:5173, per components/frontend/layout.blade.php's
@@ -48,6 +54,7 @@ class SecurityHeaders
                 "style-src 'self' 'unsafe-inline'",
                 "img-src 'self' data: https: blob:",
                 "font-src 'self' data:",
+                "worker-src 'self' blob:",
                 "connect-src 'self' https://plausible.io https://api.razorpay.com",
                 "frame-src 'self' https://www.youtube.com https://checkout.razorpay.com",
                 "frame-ancestors 'none'",
