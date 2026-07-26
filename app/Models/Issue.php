@@ -48,8 +48,8 @@ class Issue extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('cover_image')->singleFile();
-        $this->addMediaCollection('issue_pdf')->singleFile();
+        $this->addMediaCollection('cover_image')->singleFile()->useDisk('public');
+        $this->addMediaCollection('issue_pdf')->singleFile()->useDisk('public');
     }
 
     public function articles(): HasMany

@@ -40,7 +40,7 @@ class Ad extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('creative')->singleFile();
+        $this->addMediaCollection('creative')->singleFile()->useDisk('public');
     }
 
     public function createdBy(): BelongsTo

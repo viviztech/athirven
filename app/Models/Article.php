@@ -67,9 +67,14 @@ class Article extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('featured_image')->singleFile();
-        $this->addMediaCollection('audio_narration');
-        $this->addMediaCollection('gallery');
+        // ->useDisk('public') is required explicitly: without it, Filament's
+        // SpatieMediaLibraryFileUpload falls back to config('filament.default_filesystem_disk'),
+        // which mirrors FILESYSTEM_DISK (set to 'local' in production since R2
+        // is deferred) — silently sending uploads to the ephemeral, unsigned
+        // 'local' disk instead of the persistent, publicly-servable one.
+        $this->addMediaCollection('featured_image')->singleFile()->useDisk('public');
+        $this->addMediaCollection('audio_narration')->useDisk('public');
+        $this->addMediaCollection('gallery')->useDisk('public');
     }
 
     public function issue(): BelongsTo
