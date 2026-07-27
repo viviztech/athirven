@@ -11,6 +11,9 @@
         @endif
 
         <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+        <link rel="icon" href="{{ asset('images/icon-192.png') }}" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
         <x-frontend.json-ld :data="[
             '@context' => 'https://schema.org',
@@ -66,7 +69,10 @@
 
             {{-- Nameplate --}}
             <div class="mx-auto max-w-6xl px-6 py-10 text-center">
-                <a href="{{ route('home') }}" class="font-tamil text-5xl leading-none tracking-tight text-ink sm:text-6xl">அதிர்வெண்</a>
+                <a href="{{ route('home') }}" class="inline-block" aria-label="அதிர்வெண்">
+                    <img src="{{ asset('images/logo-transparent.png') }}" alt="அதிர்வெண்" class="h-12 w-auto dark:hidden sm:h-14" width="3377" height="662">
+                    <img src="{{ asset('images/logo-transparent-white.png') }}" alt="அதிர்வெண்" class="hidden h-12 w-auto dark:block sm:h-14" width="3377" height="662">
+                </a>
                 <p class="mt-3 font-meta text-[11px] tracking-[0.2em] text-slate uppercase">தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்</p>
             </div>
 
