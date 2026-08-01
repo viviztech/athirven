@@ -80,9 +80,13 @@
             </div>
 
             <nav class="border-b border-hairline">
-                <div class="mx-auto flex max-w-6xl items-center justify-center gap-8 px-6 py-3 font-meta text-xs tracking-wider uppercase">
-                    <a href="{{ route('issues.index') }}" class="text-ink hover:text-ambedkar">இதழ்கள்</a>
-                    <a href="{{ route('categories.index') }}" class="text-ink hover:text-ambedkar">பிரிவுகள்</a>
+                <div class="no-scrollbar mx-auto flex max-w-6xl items-center gap-8 overflow-x-auto px-6 py-3 font-meta text-xs tracking-wider whitespace-nowrap uppercase">
+                    <a href="{{ route('home') }}" class="shrink-0 text-ink hover:text-ambedkar">முகப்பு</a>
+                    <a href="{{ route('issues.index') }}" class="shrink-0 text-ink hover:text-ambedkar">இதழ்கள்</a>
+                    @foreach ($navCategories as $category)
+                        <a href="{{ route('categories.show', $category) }}" class="shrink-0 text-ink hover:text-ambedkar">{{ $category->name_ta }}</a>
+                    @endforeach
+                    <a href="{{ route('categories.index') }}" class="shrink-0 text-ink hover:text-ambedkar">அனைத்து பிரிவுகளும்</a>
                 </div>
             </nav>
         </header>

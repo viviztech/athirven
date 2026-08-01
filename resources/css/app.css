@@ -167,6 +167,17 @@
     color: var(--ambedkar);
 }
 
+/* Horizontally scrollable nav strip (home/issues/categories) — keep the
+   native scroll behavior but hide the scrollbar chrome across browsers. */
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 /*
  * Article body typography. There's no @tailwindcss/typography plugin in
  * this project (the old `prose` classes on this content were dead CSS —

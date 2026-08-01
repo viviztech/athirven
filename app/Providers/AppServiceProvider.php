@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Events\ArticlePublished;
 use App\Listeners\PostArticleToTelegramChannel;
+use App\Models\Category;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -41,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('donations', fn ($request) => Limit::perMinute(10)->by($request->ip()));
 
         RateLimiter::for('newsletter', fn ($request) => Limit::perMinute(10)->by($request->ip()));
+
+        View::composer('components.frontend.layout', function ($view) {
+            $view->with('navCategories', Category::whereNull('parent_id')->orderBy('name_ta')->get());
+        });
     }
 }
