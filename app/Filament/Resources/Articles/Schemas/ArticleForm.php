@@ -119,6 +119,7 @@ class ArticleForm
                                     ->default(0),
                             ])
                             ->columns(3)
+                            ->defaultItems(0)
                             ->addActionLabel('Add audio/video embed'),
                     ]),
 
