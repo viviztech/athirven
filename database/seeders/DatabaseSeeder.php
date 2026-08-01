@@ -36,7 +36,10 @@ class DatabaseSeeder extends Seeder
             $user->syncRoles([$role]);
         }
 
-        $this->call(DemoContentSeeder::class);
+        if (app()->environment('local')) {
+            $this->call(DemoContentSeeder::class);
+        }
+
         $this->call(SubscriptionPlanSeeder::class);
     }
 }

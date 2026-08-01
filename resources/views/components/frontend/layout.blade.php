@@ -67,18 +67,17 @@
                 </div>
             </div>
 
-            {{-- Masthead banner --}}
-            <a
-                href="{{ route('home') }}"
-                aria-label="அதிர்வெண்"
-                class="block h-28 bg-cover bg-center sm:h-36 md:h-44 lg:h-52"
-                style="background-image: url('{{ asset('images/banner.png') }}')"
-            ></a>
-            <div class="mx-auto max-w-6xl px-6 pt-4 pb-8 text-center sm:pb-10">
-                <p class="font-meta text-[11px] tracking-[0.2em] text-slate uppercase">தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்</p>
+            {{-- Nameplate --}}
+            <div class="relative overflow-hidden border-b border-hairline bg-paper-raised">
+                <div class="absolute inset-0 bg-cover bg-center opacity-20 dark:opacity-25" style="background-image: url('{{ asset('images/masthead-bg.webp') }}')" aria-hidden="true"></div>
+                <div class="relative mx-auto max-w-6xl px-6 py-10 text-center">
+                    <a href="{{ route('home') }}" class="inline-block" aria-label="அதிர்வெண்">
+                        <img src="{{ asset('images/logo-transparent.png') }}" alt="அதிர்வெண்" class="h-12 w-auto dark:hidden sm:h-14" width="3377" height="662">
+                        <img src="{{ asset('images/logo-transparent-white.png') }}" alt="அதிர்வெண்" class="hidden h-12 w-auto dark:block sm:h-14" width="3377" height="662">
+                    </a>
+                    <p class="mt-3 font-meta text-[11px] tracking-[0.2em] text-slate uppercase">தலித் அரசியல் மற்றும் பண்பாட்டு மாத இதழ்</p>
+                </div>
             </div>
-
-            <x-frontend.waveform class="waveform-divider mx-auto max-w-6xl px-6" />
 
             <nav class="border-b border-hairline">
                 <div class="mx-auto flex max-w-6xl items-center justify-center gap-8 px-6 py-3 font-meta text-xs tracking-wider uppercase">
