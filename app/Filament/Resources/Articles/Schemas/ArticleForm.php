@@ -72,8 +72,14 @@ class ArticleForm
 
                 Section::make('Authors')
                     ->schema([
+                        // Deliberately NOT ->relationship('authors'): this repeater picks an
+                        // EXISTING Author by id, but Filament's relationship-repeater always
+                        // treats a fresh item as "create a new related record" (it keys
+                        // existing records by repeater item UUID, which never matches on a
+                        // new Article). That silently created a blank Author per byline and
+                        // crashed on the required pen_name. Authors are synced manually in
+                        // CreateArticle/EditArticle instead.
                         Repeater::make('authors')
-                            ->relationship('authors')
                             ->schema([
                                 Select::make('author_id')
                                     ->label('Author')
