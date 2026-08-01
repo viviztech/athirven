@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <nav class="bg-[#3b2417]">
+            <nav class="bg-[#821603]">
                 <div class="no-scrollbar mx-auto flex max-w-6xl items-center gap-8 overflow-x-auto px-6 py-6 font-meta text-xs tracking-wider whitespace-nowrap uppercase">
                     <a href="{{ route('home') }}" class="shrink-0 text-[#f2e8db] hover:text-gold">முகப்பு</a>
                     <a href="{{ route('issues.index') }}" class="shrink-0 text-[#f2e8db] hover:text-gold">இதழ்கள்</a>
